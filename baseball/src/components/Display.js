@@ -1,14 +1,26 @@
 import React from "react";
 
 class Display extends React.Component {
-  state = {
-    balls: 0,
-    strikes: 0
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      balls: 0,
+      strikes: 0
+    };
+  }
+
+  componentDidMount() {
+    if (this.props.strikes) {
+      this.setState({ strikes: this.props.strikes });
+    }
+    if (this.props.balls) {
+      this.setState({ balls: this.props.balls });
+    }
+  }
 
   addStrike = () => {
     this.setState(prevState => {
-      return { strikes: prevState.strikes + 1 };
+      return { strikes: (prevState.strikes + 1) % 3 };
     });
   };
 

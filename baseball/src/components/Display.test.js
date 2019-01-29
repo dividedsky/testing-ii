@@ -35,4 +35,16 @@ describe("<Scoreboard />", () => {
 
     expect(ballDisplay).toHaveTextContent(/balls: 1/i);
   });
+  it("resets strikes to 0 when strike 3 is reached", () => {
+    const { getByTestId } = render(<Display strikes={0} balls={0} />);
+    const strikeButton = getByTestId(/strikeButton/i);
+    const strikeDisplay = getByTestId(/strikedisplay/i);
+
+    fireEvent.click(strikeButton);
+    expect(strikeDisplay).toHaveTextContent(/strikes: 1/i);
+    fireEvent.click(strikeButton);
+    expect(strikeDisplay).toHaveTextContent(/strikes: 2/i);
+    fireEvent.click(strikeButton);
+    expect(strikeDisplay).toHaveTextContent(/strikes: 0/i);
+  });
 });
