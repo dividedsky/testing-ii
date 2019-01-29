@@ -19,15 +19,23 @@ class Display extends React.Component {
   }
 
   addStrike = () => {
-    this.setState(prevState => {
-      return { strikes: (prevState.strikes + 1) % 3 };
-    });
+    const newStrikes = this.state.strikes + 1;
+    if (newStrikes === 3) {
+      this.setState({ strikes: 0, balls: 0 });
+    } else {
+      this.setState({
+        strikes: newStrikes
+      });
+    }
   };
 
   addBall = () => {
-    this.setState(prevState => {
-      return { balls: prevState.balls + 1 };
-    });
+    const newBalls = this.state.balls + 1;
+    if (newBalls === 4) {
+      this.setState({ strikes: 0, balls: 0 });
+    } else {
+      this.setState({ balls: newBalls });
+    }
   };
 
   render() {

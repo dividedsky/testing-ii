@@ -1,7 +1,9 @@
 import React from "react";
-import { render, fireEvent } from "react-testing-library";
+import { cleanup, render, fireEvent } from "react-testing-library";
 import "jest-dom/extend-expect";
 import Display from "./Display";
+
+afterEach(cleanup);
 
 describe("<Scoreboard />", () => {
   it("renders without crashing", () => {
@@ -36,7 +38,7 @@ describe("<Scoreboard />", () => {
     expect(ballDisplay).toHaveTextContent(/balls: 1/i);
   });
   it("resets strikes to 0 when strike 3 is reached", () => {
-    const { getByTestId } = render(<Display strikes={0} balls={0} />);
+    const { getByTestId } = render(<Display />);
     const strikeButton = getByTestId(/strikeButton/i);
     const strikeDisplay = getByTestId(/strikedisplay/i);
 
@@ -46,5 +48,19 @@ describe("<Scoreboard />", () => {
     expect(strikeDisplay).toHaveTextContent(/strikes: 2/i);
     fireEvent.click(strikeButton);
     expect(strikeDisplay).toHaveTextContent(/strikes: 0/i);
+  });
+  it("resets balls to 0 when ball 4 is reached", () => {
+    const { getByTestId } = render(<Display />);
+    const ballButton = getByTestId(/ballButton/i);
+    const ballDisplay = getByTestId(/balldisplay/i);
+
+    fireEvent.click(ballButton);
+    expect(ballDisplay).toHaveTextContent(/balls: 1/i);
+    fireEvent.click(ballButton);
+    expect(ballDisplay).toHaveTextContent(/balls: 2/i);
+    fireEvent.click(ballButton);
+    expect(ballDisplay).toHaveTextContent(/balls: 3/i);
+    fireEvent.click(ballButton);
+    expect(ballDisplay).toHaveTextContent(/balls: 0/i);
   });
 });
